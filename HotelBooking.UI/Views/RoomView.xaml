@@ -15,7 +15,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel>
-                            <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="16" />
                         </WrapPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

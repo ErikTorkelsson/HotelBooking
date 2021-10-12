@@ -50,7 +50,7 @@ namespace HotelBooking.UI.ViewModels
             _ea = ea;
             _ea.GetEvent<UpdateHotelsEvent>().Subscribe(UpdateHotels);
             _regionManager = regionManager;
-            _text = "HotelsView";
+            _text = "HotelView";
             LoadHotels();
 
         }

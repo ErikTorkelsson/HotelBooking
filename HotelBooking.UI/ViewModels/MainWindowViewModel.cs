@@ -51,13 +51,23 @@ namespace HotelBooking.UI.ViewModels
 
         private void UserReceived(User user)
         {
-            User = user;
-            Email = user.Email;
-            foreach (var booking in User.Bookings)
+            if(user != null)
             {
-                Debug.WriteLine(booking.RoomId);
+                User = user;
+                Email = user.Email;
+                foreach (var booking in User.Bookings)
+                {
+                    Debug.WriteLine(booking.RoomId);
+                }
+                isLoggedIn = true;
             }
-            isLoggedIn = true;
+            else if(user == null)
+            {
+                User = user;
+                Email = "Logga in";
+                isLoggedIn = false;
+            }
+            
         }
 
         private void Navigate(string viewName)

@@ -33,12 +33,7 @@ namespace HotelBooking.UI.ViewModels
         public string Email
         {
             get { return _email; }
-            set
-            {
-                _email = value;
-                //OnPropertyChanged(nameof(_email));
-                //SetProperty(ref _email, value);
-            }
+            set { SetProperty(ref _email, value); }
         }
 
         private string _passWord;
@@ -46,11 +41,7 @@ namespace HotelBooking.UI.ViewModels
         public string PassWord
         {
             get { return _passWord; }
-            set
-            {
-                _passWord = value;
-                //OnPropertyChanged(nameof(PassWord));
-            }
+            set { SetProperty(ref _passWord, value); }
         }
 
         public LoginViewModel(IUserDataService service, IEventAggregator ea, IRegionManager regionManager)
@@ -82,6 +73,8 @@ namespace HotelBooking.UI.ViewModels
                 var p = new NavigationParameters();
                 p.Add("message", $"Välkommen {user.FirstName}");
                 _regionManager.RequestNavigate("ContentRegion", "MessageView", p);
+                Email = "";
+                PassWord = "";
             }
             else
             {
@@ -93,37 +86,6 @@ namespace HotelBooking.UI.ViewModels
         {
             _regionManager.RequestNavigate("ContentRegion", viewName);
         }
-
-        //private bool CanExecute()
-        //{
-        //    return true;
-        //}
-
-        //private async void Execute(object parameter)
-        //{
-        //    int id = 0;
-        //    await LoadUsers();
-        //    User user = GetUserById(id);
-
-        //    var passwordBox = parameter as PasswordBox;
-        //    var password = passwordBox.Password.ToString();
-
-        //    id = LoginCheck(password);
-
-        //    _ea.GetEvent<LoginEvent>().Publish(user);
-
-        //    if (id > 0)
-        //    {
-        //        MessageBox.Show("Hittad");
-        //        var p = new NavigationParameters();
-        //        p.Add("message", $"Välkommen {user.FirstName}");
-        //        _regionManager.RequestNavigate("ContentRegion", "MessageView", p);
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Inte hittad");
-        //    }
-        //}
 
         public async Task LoadUsers()
         {

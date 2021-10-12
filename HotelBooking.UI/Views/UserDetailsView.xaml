@@ -8,22 +8,23 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
-            <Label FontWeight="Bold">Namn:</Label>
-            <TextBlock Text="{Binding FullName}"/>
-            <Label FontWeight="Bold">Adress:</Label>
-            <TextBlock Text="{Binding Path=User.Address}"/>
-            <Label FontWeight="Bold">Email:</Label>
-            <TextBlock Text="{Binding Path=User.Email}"/>
-            <Label FontWeight="Bold">Mobilnummer:</Label>
-            <TextBlock Text="{Binding Path=User.PhoneNumber}"/>
+        <StackPanel HorizontalAlignment="Center" Margin="15" Grid.Column="0">
+            <TextBlock FontWeight="Bold" FontSize="18" Margin="3">Namn:</TextBlock>
+            <TextBlock Text="{Binding FullName}" FontSize="18" Margin="3"/>
+            <TextBlock FontWeight="Bold" FontSize="18" Margin="3">Adress:</TextBlock>
+            <TextBlock Text="{Binding Path=User.Address}" FontSize="18" Margin="3"/>
+            <TextBlock FontWeight="Bold" FontSize="18" Margin="3">Email:</TextBlock>
+            <TextBlock Text="{Binding Path=User.Email}" FontSize="18" Margin="3"/>
+            <TextBlock FontWeight="Bold" FontSize="18" Margin="3">Mobilnummer:</TextBlock>
+            <TextBlock Text="{Binding Path=User.PhoneNumber}" FontSize="18" Margin="3"/>
+            <Button Width="100" Command="{Binding LogOutCommand}" Margin="5">Logga ut</Button>
         </StackPanel>
         <StackPanel Grid.Column="1">
-            <ListView x:Name="ListView" Width="200" Height="300" ItemsSource="{Binding Bookings}" SelectedItem="{Binding SelectedBooking}">
+            <ListView x:Name="ListView" Width="300" Height="250" Margin="15" ItemsSource="{Binding Bookings}" SelectedItem="{Binding SelectedBooking}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel>
-                            <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                            <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" />
                         </WrapPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

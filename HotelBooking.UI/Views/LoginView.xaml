@@ -10,6 +10,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <StackPanel Width="250">
+            <TextBlock Text="LoginView" FontSize="48" HorizontalAlignment="Center"/>
             <Label
                 Content="Email"
                 Target="{Binding ElementName=EmailBox}"

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using HotelBooking.Model.Model;
+using HotelBooking.UI.Events;
+using Prism.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,11 +23,15 @@ namespace HotelBooking.UI.Views
     /// </summary>
     public partial class LoginView : UserControl
     {
-        public char PasswordChar { get; set; }
-        public LoginView()
+        public LoginView(IEventAggregator eventAggregator)
         {
             InitializeComponent();
-            
+            eventAggregator.GetEvent<LoginEvent>().Subscribe(Recieved);
+        }
+
+        private void Recieved(User obj)
+        {
+            PWBox.Clear();
         }
     }
 }

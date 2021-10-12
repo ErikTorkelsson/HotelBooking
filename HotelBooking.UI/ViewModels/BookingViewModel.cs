@@ -151,8 +151,16 @@ namespace HotelBooking.UI.ViewModels
 
         private void UserReceived(User user)
         {
+            if(user != null)
+            {                
+                IsLoggedIn = true;
+            }
+            else if(user == null)
+            {
+                IsLoggedIn = false;
+            }
             User = user;
-            IsLoggedIn = true;
+
         }
 
     }

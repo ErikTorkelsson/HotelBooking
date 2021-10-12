@@ -17,6 +17,7 @@ namespace HotelBooking.UI.ViewModels
     {
         public ObservableCollection<Booking> Bookings { get; set; }
         public DelegateCommand EditBookingCommand { get; set; }
+        public DelegateCommand LogOutCommand { get; set; }
 
         private Booking _selectedBooking;
 
@@ -52,8 +53,20 @@ namespace HotelBooking.UI.ViewModels
             Bookings = new ObservableCollection<Booking>();
             eventAggregator.GetEvent<LoginEvent>().Subscribe(UserReceived);
             EditBookingCommand = new DelegateCommand(Execute, CanExecute);
+            LogOutCommand = new DelegateCommand(LogOutExecute, LogOutCanExecute);
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
+        }
+
+        private bool LogOutCanExecute()
+        {
+            return true;
+        }
+
+        private void LogOutExecute()
+        {
+            User user = null;
+            _eventAggregator.GetEvent<LoginEvent>().Publish(user);
         }
 
         private bool CanExecute()
@@ -69,14 +82,24 @@ namespace HotelBooking.UI.ViewModels
 
         private void UserReceived(User user)
         {
-            Bookings.Clear();
-            User = user;
-            foreach (var booking in user.Bookings)
-            {            
-                Bookings.Add(booking);
+            if(user != null)
+            {
+                Bookings.Clear();
+                User = user;
+                foreach (var booking in user.Bookings)
+                {
+                    Bookings.Add(booking);
+                }
+                FullName = $"{user.FirstName} {user.LastName}";
+                Debug.WriteLine(user.FirstName);
             }
-            FullName = $"{user.FirstName} {user.LastName}";
-            Debug.WriteLine(user.FirstName);
+            else if(user == null)
+            {
+                var p = new NavigationParameters();
+                p.Add("message", $"Du har nu loggat ut");
+                _regionManager.RequestNavigate("ContentRegion", "MessageView", p);
+            }
+            
         }
     }
 }
