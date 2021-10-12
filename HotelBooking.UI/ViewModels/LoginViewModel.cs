@@ -9,13 +9,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace HotelBooking.UI.ViewModels
 {
-    public class LoginViewModel : BindableBase, ILoginViewModel
+    public class LoginViewModel : BindableBase
     {
         private readonly IUserDataService _service;
         private readonly IEventAggregator _ea;
@@ -23,7 +25,7 @@ namespace HotelBooking.UI.ViewModels
 
         public ObservableCollection<User> Users { get; set; }
 
-        public DelegateCommand LoginCommand { get; set; }
+        public DelegateCommand<object> LoginCommand { get; set; }
         public DelegateCommand<string> NavigateCommand { get; set; }
 
         private string _email;
@@ -57,8 +59,34 @@ namespace HotelBooking.UI.ViewModels
             _ea = ea;
             _regionManager = regionManager;
             Users = new ObservableCollection<User>();
-            LoginCommand = new DelegateCommand(Execute, CanExecute);
+            LoginCommand = new DelegateCommand<object>(Execute);
             NavigateCommand = new DelegateCommand<string>(Navigate);
+        }
+
+        private async void Execute(object parameter)
+        {
+            int id;
+            await LoadUsers();
+            
+            // Detta är nog inte best paractice men funkar för skoluppgift.
+            var passwordBox = parameter as PasswordBox;
+            var password = passwordBox.Password.ToString();
+
+            id = LoginCheck(password);
+            
+
+            if (id > 0)
+            {
+                User user = GetUserById(id);
+                _ea.GetEvent<LoginEvent>().Publish(user);
+                var p = new NavigationParameters();
+                p.Add("message", $"Välkommen {user.FirstName}");
+                _regionManager.RequestNavigate("ContentRegion", "MessageView", p);
+            }
+            else
+            {
+                MessageBox.Show("Fel lösenord eller email");
+            }
         }
 
         private void Navigate(string viewName)
@@ -66,32 +94,36 @@ namespace HotelBooking.UI.ViewModels
             _regionManager.RequestNavigate("ContentRegion", viewName);
         }
 
-        private bool CanExecute()
-        {
-            return true;
-        }
+        //private bool CanExecute()
+        //{
+        //    return true;
+        //}
 
-        private async void Execute()
-        {
-            int id = 0;
-            await LoadUsers();
-            id = LoginCheck();
-            User user = GetUserById(id);
+        //private async void Execute(object parameter)
+        //{
+        //    int id = 0;
+        //    await LoadUsers();
+        //    User user = GetUserById(id);
 
-            _ea.GetEvent<LoginEvent>().Publish(user);
+        //    var passwordBox = parameter as PasswordBox;
+        //    var password = passwordBox.Password.ToString();
 
-            if (id > 0)
-            {
-                //MessageBox.Show("Hittad");
-                var p = new NavigationParameters();
-                p.Add("message", $"Välkommen {user.FirstName}");
-                _regionManager.RequestNavigate("ContentRegion", "MessageView",p);
-            }
-            else
-            {
-                MessageBox.Show("Inte hittad");
-            }
-        }
+        //    id = LoginCheck(password);
+
+        //    _ea.GetEvent<LoginEvent>().Publish(user);
+
+        //    if (id > 0)
+        //    {
+        //        MessageBox.Show("Hittad");
+        //        var p = new NavigationParameters();
+        //        p.Add("message", $"Välkommen {user.FirstName}");
+        //        _regionManager.RequestNavigate("ContentRegion", "MessageView", p);
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Inte hittad");
+        //    }
+        //}
 
         public async Task LoadUsers()
         {
@@ -102,13 +134,13 @@ namespace HotelBooking.UI.ViewModels
             }
         }
 
-        public int LoginCheck()
+        public int LoginCheck(string password)
         {
             int id = 0;
 
             foreach (var user in Users)
             {
-                if (user.Email == Email && user.PassWord == PassWord)
+                if (user.Email == Email && user.PassWord == password)
                 {
                     id = user.UserId;
                 }

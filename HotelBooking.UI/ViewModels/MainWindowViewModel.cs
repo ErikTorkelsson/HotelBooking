@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace HotelBooking.UI.ViewModels
 {
@@ -36,6 +37,8 @@ namespace HotelBooking.UI.ViewModels
             set { SetProperty(ref _email, value); }
         }
 
+        public bool isLoggedIn { get; set; }
+
 
         public DelegateCommand<string> NavigateCommand { get; set; }
         public MainWindowViewModel(IRegionManager regionManager, IEventAggregator ea)
@@ -54,11 +57,40 @@ namespace HotelBooking.UI.ViewModels
             {
                 Debug.WriteLine(booking.RoomId);
             }
+            isLoggedIn = true;
         }
 
         private void Navigate(string viewName)
         {
-            _regionManager.RequestNavigate("ContentRegion", viewName);
+            if(viewName == "LoginView")
+            {
+                if(isLoggedIn)
+                {
+                    var p = new NavigationParameters();
+                    p.Add("message", $"Du är redan inloggad");
+                    _regionManager.RequestNavigate("ContentRegion", "MessageView", p);
+                }
+                else
+                {
+                    _regionManager.RequestNavigate("ContentRegion", viewName);
+                }
+            }
+            else if(viewName == "HotelView")
+            {
+                _regionManager.RequestNavigate("ContentRegion", viewName);
+            }
+            else if(viewName == "UserDetailsView")
+            {
+                if(isLoggedIn)
+                {
+                    _regionManager.RequestNavigate("ContentRegion", viewName);
+                }
+                else
+                {
+                    MessageBox.Show("Du är inte inloggad.");
+                }
+            }
+            
         }
 
     }

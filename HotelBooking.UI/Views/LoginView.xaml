@@ -21,14 +21,16 @@
                 Content="PassWord"
                 Target="{Binding ElementName=PassWordBox}"
                 Margin="0 10 0 0"/>
-            <TextBox 
+            <PasswordBox Name="PWBox"/>
+            <!--<TextBox 
                 Name="PassWordBox"
-                Text="{Binding PassWord}" />
+                Text="{Binding PassWord}"/>-->
             <Button Name="SignInBtn"
                     Content="Logga in"
                     Margin="0 20 0 0"
                     Width="60"
-                    Command="{Binding LoginCommand}"/>
+                    Command="{Binding LoginCommand}"
+                    CommandParameter="{Binding ElementName=PWBox}"/>
             <Button Command="{Binding NavigateCommand}"
                     CommandParameter="RegisterView"
                     Content="Registrera"

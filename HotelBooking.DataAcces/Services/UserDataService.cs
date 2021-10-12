@@ -19,10 +19,7 @@ namespace HotelBooking.DataAcces.Services
 
         public async Task<List<User>> GetUsers()
         {
-            using (var context = _dbContext)
-            {
-                return await context.Users.Include(u => u.Bookings).ToListAsync();
-            }
+            return await _dbContext.Users.Include(u => u.Bookings).ToListAsync();
         }
 
         public async Task SaveUser(User user)

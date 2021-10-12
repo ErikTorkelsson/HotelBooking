@@ -20,9 +20,11 @@ namespace HotelBooking.UI.Views
     /// </summary>
     public partial class LoginView : UserControl
     {
+        public char PasswordChar { get; set; }
         public LoginView()
         {
             InitializeComponent();
+            
         }
     }
 }
