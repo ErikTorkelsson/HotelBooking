@@ -39,7 +39,6 @@ namespace HotelBooking.UI.ViewModels
 
         public bool isLoggedIn { get; set; }
 
-
         public DelegateCommand<string> NavigateCommand { get; set; }
         public MainWindowViewModel(IRegionManager regionManager, IEventAggregator ea)
         {
@@ -47,7 +46,6 @@ namespace HotelBooking.UI.ViewModels
             _regionManager = regionManager;
             ea.GetEvent<LoginEvent>().Subscribe(UserReceived);
         }
-
 
         private void UserReceived(User user)
         {

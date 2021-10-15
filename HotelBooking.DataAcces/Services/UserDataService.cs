@@ -22,6 +22,15 @@ namespace HotelBooking.DataAcces.Services
             return await _dbContext.Users.Include(u => u.Bookings).ToListAsync();
         }
 
+        public async Task<User> GetUserByEmail(string email)
+        {
+            var user = await _dbContext.Users.Include(u => u.Bookings).FirstOrDefaultAsync(u => u.Email == email);
+
+            //var users = await _dbContext.Users.Include(u => u.Bookings).ToListAsync();
+            //var user = users.FirstOrDefault(u => u.Email == email);
+            return user;
+        }
+
         public async Task SaveUser(User user)
         {
             _dbContext.Users.Add(user);

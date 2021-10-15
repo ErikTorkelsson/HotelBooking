@@ -23,6 +23,47 @@ namespace HotelBooking.UI.ViewModels
         
         public DelegateCommand BookCommand { get; set; }
 
+        private bool _oneWeek;
+
+        public bool OneWeek
+        {
+            get { return _oneWeek; }
+            set 
+            { 
+                SetProperty(ref _oneWeek, value);
+                if(OneWeek)
+                {
+                    TwoWeeks = false;
+                    Transportation = false;
+                    Pool = false;
+                    Breakfast = false;
+                    AllInclusive = false;
+                    TotalPrice = Room.Price * 7;
+                }
+                
+            }
+        }
+
+        private bool _twoWeeks;
+
+        public bool TwoWeeks
+        {
+            get { return _twoWeeks; }
+            set
+            {
+                SetProperty(ref _twoWeeks, value);
+                if (TwoWeeks)
+                {
+                    OneWeek = false;
+                    Transportation = false;
+                    Pool = false;
+                    Breakfast = false;
+                    AllInclusive = false;
+                    TotalPrice = Room.Price * 14;
+                }
+            }
+        }
+
         private DateTime _startDate;
 
         public DateTime StartDate
@@ -52,7 +93,11 @@ namespace HotelBooking.UI.ViewModels
         public bool Transportation
         {
             get { return _transportation; }
-            set { SetProperty(ref _transportation, value); }
+            set
+            { 
+                SetProperty(ref _transportation, value);
+                SetExtrasPrice(Transportation, 200);
+            }
         }
 
         private bool _pool;
@@ -60,7 +105,11 @@ namespace HotelBooking.UI.ViewModels
         public bool Pool
         {
             get { return _pool; }
-            set { SetProperty(ref _pool, value); }
+            set
+            { 
+                SetProperty(ref _pool, value);
+                SetExtrasPrice(Pool, 150);
+            }
         }
 
         private bool _breakfast;
@@ -68,7 +117,11 @@ namespace HotelBooking.UI.ViewModels
         public bool Breakfast
         {
             get { return _breakfast; }
-            set { SetProperty(ref _breakfast, value); }
+            set
+            { 
+                SetProperty(ref _breakfast, value);
+                SetExtrasPrice(Breakfast, 300);
+            }
         }
 
         private bool _allInclusive;
@@ -76,30 +129,48 @@ namespace HotelBooking.UI.ViewModels
         public bool AllInclusive
         {
             get { return _allInclusive; }
-            set { SetProperty(ref _allInclusive, value); }
+            set
+            { 
+                SetProperty(ref _allInclusive, value);
+                SetExtrasPrice(AllInclusive, 500);
+            }
         }
-
-        public bool IsLoggedIn { get; set; }
 
 
         private Room _room;
-        private readonly IBookingDataService _service;
-        private readonly IEventAggregator _ea;
-        private readonly IRegionManager _regionManager;
-
         public Room Room
         {
             get { return _room; }
             set { SetProperty(ref _room, value); }
         }
 
+        private double _totalPrice;
+        public double TotalPrice
+        {
+            get { return _totalPrice; }
+            set 
+            {
+                SetProperty(ref _totalPrice, value);
+            }
+        }
 
-        public BookingViewModel(IBookingDataService service, IEventAggregator ea, IRegionManager regionManager)
+        public bool IsLoggedIn { get; set; }
+
+
+        private readonly IUserDataService _userService;
+        private readonly IBookingDataService _service;
+        private readonly IEventAggregator _ea;
+        private readonly IRegionManager _regionManager;
+
+
+
+        public BookingViewModel(IUserDataService userService ,IBookingDataService service, IEventAggregator ea, IRegionManager regionManager)
         {
             BookCommand = new DelegateCommand(BookExecute, BookCanExecute);
             ea.GetEvent<BookingEvent>().Subscribe(RoomReceived);
             ea.GetEvent<LoginEvent>().Subscribe(UserReceived);
             IsLoggedIn = false;
+            _userService = userService;
             _service = service;
             _ea = ea;
             _regionManager = regionManager;
@@ -112,35 +183,9 @@ namespace HotelBooking.UI.ViewModels
             return true;
         }
 
-        private void BookExecute()
+        private async void BookExecute()
         {
-            if(IsLoggedIn)
-            {
-                Booking booking = new Booking
-                {
-                    UserId = User.UserId,
-                    RoomId = Room.RoomId,
-                    StartDate = StartDate,
-                    EndDate = EndDate,
-                    Transportation = Transportation,
-                    Pool = Pool,
-                    Breakfast = Breakfast,
-                    AllInclusive = AllInclusive
-                };
-
-                _service.SaveBooking(booking);
-                User.Bookings.Add(booking);
-                _ea.GetEvent<UpdateHotelsEvent>().Publish();
-                _ea.GetEvent<LoginEvent>().Publish(User);
-
-                var p = new NavigationParameters();
-                p.Add("message", $"Tack för din bokning!");
-                _regionManager.RequestNavigate("ContentRegion", "MessageView", p);
-            }
-            else
-            {
-                MessageBox.Show("Du måste vara inloggad för att kunna boka");
-            }
+            await AddBooking();
         }
 
         private void RoomReceived(Room room)
@@ -163,5 +208,64 @@ namespace HotelBooking.UI.ViewModels
 
         }
 
+        public void SetExtrasPrice(bool type, double price)
+        {
+            if (type)
+            {
+                if (OneWeek)
+                {
+                    TotalPrice += price;
+                }
+                else if (TwoWeeks)
+                {
+                    TotalPrice += price * 2;
+                }
+            }
+            else
+            {
+                if (OneWeek)
+                {
+                    TotalPrice -= price;
+                }
+                else if (TwoWeeks)
+                {
+                    TotalPrice -= price * 2;
+                }
+            }
+        }
+
+        public async Task AddBooking()
+        {
+            if (IsLoggedIn)
+            {
+                Booking booking = new Booking
+                {
+                    UserId = User.UserId,
+                    RoomId = Room.RoomId,
+                    Weeks = OneWeek ? 1 : 2,
+                    StartDate = StartDate,
+                    EndDate = OneWeek? StartDate.AddDays(7) : StartDate.AddDays(14),
+                    Transportation = Transportation,
+                    Pool = Pool,
+                    Breakfast = Breakfast,
+                    AllInclusive = AllInclusive,
+                    TotalPrice = TotalPrice
+                };
+
+                await _service.SaveBooking(booking);
+                var user = await _userService.GetUserByEmail(User.Email);
+                User = user;
+                _ea.GetEvent<UpdateHotelsEvent>().Publish();
+                _ea.GetEvent<LoginEvent>().Publish(User);
+
+                var p = new NavigationParameters();
+                p.Add("message", $"Tack för din bokning!");
+                _regionManager.RequestNavigate("ContentRegion", "MessageView", p);
+            }
+            else
+            {
+                MessageBox.Show("Du måste vara inloggad för att kunna boka");
+            }
+        }
     }
 }

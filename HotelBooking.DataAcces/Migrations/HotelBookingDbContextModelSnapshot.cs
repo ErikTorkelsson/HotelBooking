@@ -44,10 +44,16 @@ namespace HotelBooking.DataAcces.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("TotalPrice")
+                        .HasColumnType("float");
+
                     b.Property<bool>("Transportation")
                         .HasColumnType("bit");
 
                     b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Weeks")
                         .HasColumnType("int");
 
                     b.HasKey("BookingId");

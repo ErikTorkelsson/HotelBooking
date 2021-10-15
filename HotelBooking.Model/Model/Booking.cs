@@ -13,12 +13,14 @@ namespace HotelBooking.Model.Model
         public User User { get; set; }
         public int RoomId { get; set; }
         public Room Room { get; set; }
+        public int Weeks { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public bool Transportation { get; set; }
         public bool Pool { get; set; }
         public bool Breakfast { get; set; }
         public bool AllInclusive { get; set; }
+        public double TotalPrice { get; set; }
         public string Name => $"Bokning från: {StartDate.ToShortDateString()} till: {EndDate.ToShortDateString()}";
 
     }

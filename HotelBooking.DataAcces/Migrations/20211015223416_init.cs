@@ -84,12 +84,14 @@ namespace HotelBooking.DataAcces.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: false),
+                    Weeks = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Transportation = table.Column<bool>(type: "bit", nullable: false),
                     Pool = table.Column<bool>(type: "bit", nullable: false),
                     Breakfast = table.Column<bool>(type: "bit", nullable: false),
-                    AllInclusive = table.Column<bool>(type: "bit", nullable: false)
+                    AllInclusive = table.Column<bool>(type: "bit", nullable: false),
+                    TotalPrice = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {

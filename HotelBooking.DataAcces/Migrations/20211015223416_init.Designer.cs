@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBooking.DataAcces.Migrations
 {
     [DbContext(typeof(HotelBookingDbContext))]
-    [Migration("20211011154144_init")]
+    [Migration("20211015223416_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,10 +46,16 @@ namespace HotelBooking.DataAcces.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("TotalPrice")
+                        .HasColumnType("float");
+
                     b.Property<bool>("Transportation")
                         .HasColumnType("bit");
 
                     b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Weeks")
                         .HasColumnType("int");
 
                     b.HasKey("BookingId");

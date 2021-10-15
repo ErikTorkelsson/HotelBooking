@@ -6,23 +6,23 @@
     <Grid>
         <StackPanel HorizontalAlignment="Center">
             <TextBlock Text="{Binding Path=Room.Name}" Margin="5"/>
+            <RadioButton IsChecked="{Binding OneWeek}" Margin="5">En vecka</RadioButton>
+            <RadioButton IsChecked="{Binding TwoWeeks}" Margin="5">Två veckor</RadioButton>
             <Label >Från</Label>
             <DatePicker Name="StartDatePicker" Width="200" Margin="5" SelectedDate="{Binding StartDate}"></DatePicker>
-            <Label>Till</Label>
-            <DatePicker Width="200"  SelectedDate="{Binding EndDate}" Margin="5">
-            </DatePicker>
             <CheckBox IsChecked="{Binding Transportation}" Margin="5">
-            <TextBlock>Transport</TextBlock>
+            <TextBlock>Transport: 200kr/vecka</TextBlock>
             </CheckBox>
             <CheckBox IsChecked="{Binding Pool}" Margin="5">
-                <TextBlock>Pool</TextBlock>
+                <TextBlock>Pool: 150kr/vecka</TextBlock>
             </CheckBox>
             <CheckBox IsChecked="{Binding Breakfast}" Margin="5">
-                <TextBlock>Frukost</TextBlock>
+                <TextBlock>Frukost: 300kr/vecka</TextBlock>
             </CheckBox>
             <CheckBox IsChecked="{Binding AllInclusive}" Margin="5">
-                <TextBlock>All-Inclusive</TextBlock>
+                <TextBlock>All-Inclusive: 500kr/vecka</TextBlock>
             </CheckBox>
+            <TextBlock Text="{Binding TotalPrice}"></TextBlock>
             <Button Width="100" Command="{Binding BookCommand}" Margin="5">Boka</Button>
         </StackPanel>
     </Grid>

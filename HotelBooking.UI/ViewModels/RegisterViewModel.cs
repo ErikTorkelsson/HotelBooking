@@ -78,16 +78,14 @@ namespace HotelBooking.UI.ViewModels
 
         private void Execute()
         {
-            bool success = int.TryParse(PhoneNumber, out int phoneNumber);
+            Register();
+        }
 
-            if (success)
-            {
-                Debug.WriteLine($"Converted '{PhoneNumber}' to {phoneNumber}.");
-            }
-            else
-            {
-                Debug.WriteLine($"Attempted conversion of '{PhoneNumber ?? "<null>"}' failed.");
-            }
+        public void Register()
+        {
+            int.TryParse(PhoneNumber, out int phoneNumber);
+
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword(Password);
 
             User user = new User
             {
@@ -96,7 +94,7 @@ namespace HotelBooking.UI.ViewModels
                 Address = Address,
                 PhoneNumber = phoneNumber,
                 Email = Email,
-                PassWord = Password
+                PassWord = passwordHash
             };
 
             _service.SaveUser(user);
@@ -104,7 +102,6 @@ namespace HotelBooking.UI.ViewModels
             var p = new NavigationParameters();
             p.Add("message", $"Du är nu registrerad.\nLogga in för att fortsätta.");
             _regionManager.RequestNavigate("ContentRegion", "MessageView", p);
-
         }
     }
 }

@@ -37,6 +37,47 @@ namespace HotelBooking.UI.ViewModels
             set { SetProperty(ref _roomId, value); }
         }
 
+        private bool _oneWeek;
+
+        public bool OneWeek
+        {
+            get { return _oneWeek; }
+            set
+            {
+                SetProperty(ref _oneWeek, value);
+                //if (OneWeek)
+                //{
+                //    TwoWeeks = false;
+                //    Transportation = false;
+                //    Pool = false;
+                //    Breakfast = false;
+                //    AllInclusive = false;
+                //    TotalPrice = Booking.Room.Price * 7;
+                //}
+
+            }
+        }
+
+        private bool _twoWeeks;
+
+        public bool TwoWeeks
+        {
+            get { return _twoWeeks; }
+            set
+            {
+                SetProperty(ref _twoWeeks, value);
+                //if (TwoWeeks)
+                //{
+                //    OneWeek = false;
+                //    Transportation = false;
+                //    Pool = false;
+                //    Breakfast = false;
+                //    AllInclusive = false;
+                //    TotalPrice = Booking.Room.Price * 14;
+                //}
+            }
+        }
+
 
         private DateTime _startDate;
 
@@ -59,7 +100,11 @@ namespace HotelBooking.UI.ViewModels
         public bool Transportation
         {
             get { return _transportation; }
-            set { SetProperty(ref _transportation, value); }
+            set
+            { 
+                SetProperty(ref _transportation, value);
+                SetExtrasPrice(Transportation, 200);
+            }
         }
 
         private bool _pool;
@@ -67,7 +112,11 @@ namespace HotelBooking.UI.ViewModels
         public bool Pool
         {
             get { return _pool; }
-            set { SetProperty(ref _pool, value); }
+            set
+            { 
+                SetProperty(ref _pool, value);
+                SetExtrasPrice(Pool, 150);
+            }
         }
 
         private bool _breakfast;
@@ -75,7 +124,21 @@ namespace HotelBooking.UI.ViewModels
         public bool Breakfast
         {
             get { return _breakfast; }
-            set { SetProperty(ref _breakfast, value); }
+            set
+            { 
+                SetProperty(ref _breakfast, value);
+                SetExtrasPrice(Breakfast, 300);
+            }
+        }
+
+        private double _totalPrice;
+        public double TotalPrice
+        {
+            get { return _totalPrice; }
+            set
+            {
+                SetProperty(ref _totalPrice, value);
+            }
         }
 
         private bool _allInclusive;
@@ -158,13 +221,41 @@ namespace HotelBooking.UI.ViewModels
         {
             Booking = booking;
             RoomId = booking.RoomId;
+            OneWeek = Booking.Weeks == 1 ? true : false;
+            TwoWeeks = Booking.Weeks == 2 ? true : false;
             StartDate = booking.StartDate;
             EndDate = booking.EndDate;
             Transportation = booking.Transportation;
             Pool = booking.Pool;
             Breakfast = booking.Breakfast;
             AllInclusive = booking.AllInclusive;
+            TotalPrice = Booking.TotalPrice;
 
+        }
+        public void SetExtrasPrice(bool type, double price)
+        {
+            if (type)
+            {
+                if (OneWeek)
+                {
+                    TotalPrice += price;
+                }
+                else if (TwoWeeks)
+                {
+                    TotalPrice += price * 2;
+                }
+            }
+            else
+            {
+                if (OneWeek)
+                {
+                    TotalPrice -= price;
+                }
+                else if (TwoWeeks)
+                {
+                    TotalPrice -= price * 2;
+                }
+            }
         }
     }
 }

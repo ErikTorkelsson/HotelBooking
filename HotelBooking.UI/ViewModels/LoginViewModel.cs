@@ -56,30 +56,13 @@ namespace HotelBooking.UI.ViewModels
 
         private async void Execute(object parameter)
         {
-            int id;
-            await LoadUsers();
+            User user = await _service.GetUserByEmail(Email);
             
             // Detta är nog inte best paractice men funkar för skoluppgift.
             var passwordBox = parameter as PasswordBox;
             var password = passwordBox.Password.ToString();
 
-            id = LoginCheck(password);
-            
-
-            if (id > 0)
-            {
-                User user = GetUserById(id);
-                _ea.GetEvent<LoginEvent>().Publish(user);
-                var p = new NavigationParameters();
-                p.Add("message", $"Välkommen {user.FirstName}");
-                _regionManager.RequestNavigate("ContentRegion", "MessageView", p);
-                Email = "";
-                PassWord = "";
-            }
-            else
-            {
-                MessageBox.Show("Fel lösenord eller email");
-            }
+            LoginCheck(user, password);        
         }
 
         private void Navigate(string viewName)
@@ -96,26 +79,24 @@ namespace HotelBooking.UI.ViewModels
             }
         }
 
-        public int LoginCheck(string password)
+        public void LoginCheck(User user, string password)
         {
-            int id = 0;
+            bool verified = user != null ? BCrypt.Net.BCrypt.Verify(password, user.PassWord) : false;
 
-            foreach (var user in Users)
+            if (verified)
             {
-                if (user.Email == Email && user.PassWord == password)
-                {
-                    id = user.UserId;
-                }
+                _ea.GetEvent<LoginEvent>().Publish(user);
+                var p = new NavigationParameters();
+                p.Add("message", $"Välkommen {user.FirstName}");
+                _regionManager.RequestNavigate("ContentRegion", "MessageView", p);
+                Email = "";
+                PassWord = "";
+            }
+            else
+            {
+                MessageBox.Show("Fel lösenord eller email");
             }
 
-            return id;
-        }
-
-        public User GetUserById(int id)
-        {
-            User user = Users.FirstOrDefault(u => u.UserId == id);
-
-            return user;
         }
 
     }
