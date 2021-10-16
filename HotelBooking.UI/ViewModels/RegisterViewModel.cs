@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 
 namespace HotelBooking.UI.ViewModels
 {
@@ -85,23 +86,32 @@ namespace HotelBooking.UI.ViewModels
         {
             int.TryParse(PhoneNumber, out int phoneNumber);
 
-            var passwordHash = BCrypt.Net.BCrypt.HashPassword(Password);
-
-            User user = new User
+            if(phoneNumber > 0 && Password.Length > 0)
             {
-                FirstName = FirstName,
-                LastName = LastName,
-                Address = Address,
-                PhoneNumber = phoneNumber,
-                Email = Email,
-                PassWord = passwordHash
-            };
+                var passwordHash = BCrypt.Net.BCrypt.HashPassword(Password);
 
-            _service.SaveUser(user);
+                User user = new User
+                {
+                    FirstName = FirstName,
+                    LastName = LastName,
+                    Address = Address,
+                    PhoneNumber = phoneNumber,
+                    Email = Email,
+                    PassWord = passwordHash
+                };
 
-            var p = new NavigationParameters();
-            p.Add("message", $"Du är nu registrerad.\nLogga in för att fortsätta.");
-            _regionManager.RequestNavigate("ContentRegion", "MessageView", p);
+                _service.SaveUser(user);
+
+                var p = new NavigationParameters();
+                p.Add("message", $"Du är nu registrerad.\nLogga in för att fortsätta.");
+                _regionManager.RequestNavigate("ContentRegion", "MessageView", p);
+            }
+            else
+            {
+                MessageBox.Show("Du har inte fyllt i fälten korrekt");
+            }
+
+            
         }
     }
 }

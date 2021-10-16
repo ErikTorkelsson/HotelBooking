@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 
 namespace HotelBooking.UI.ViewModels
@@ -76,8 +77,16 @@ namespace HotelBooking.UI.ViewModels
 
         private void Execute()
         {
-            _eventAggregator.GetEvent<EditBookingEvent>().Publish(SelectedBooking);
-            _regionManager.RequestNavigate("ContentRegion", "EditBookingView");
+            if(SelectedBooking !=null)
+            {
+                _eventAggregator.GetEvent<EditBookingEvent>().Publish(SelectedBooking);
+                _regionManager.RequestNavigate("ContentRegion", "EditBookingView");
+            }
+            else
+            {
+                MessageBox.Show("Du måste välja bokning");
+            }
+            
         }
 
         private void UserReceived(User user)

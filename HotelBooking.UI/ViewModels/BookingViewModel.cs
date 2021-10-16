@@ -238,29 +238,37 @@ namespace HotelBooking.UI.ViewModels
         {
             if (IsLoggedIn)
             {
-                Booking booking = new Booking
+                if(OneWeek || TwoWeeks)
                 {
-                    UserId = User.UserId,
-                    RoomId = Room.RoomId,
-                    Weeks = OneWeek ? 1 : 2,
-                    StartDate = StartDate,
-                    EndDate = OneWeek? StartDate.AddDays(7) : StartDate.AddDays(14),
-                    Transportation = Transportation,
-                    Pool = Pool,
-                    Breakfast = Breakfast,
-                    AllInclusive = AllInclusive,
-                    TotalPrice = TotalPrice
-                };
+                    Booking booking = new Booking
+                    {
+                        UserId = User.UserId,
+                        RoomId = Room.RoomId,
+                        Weeks = OneWeek ? 1 : 2,
+                        StartDate = StartDate,
+                        EndDate = OneWeek ? StartDate.AddDays(7) : StartDate.AddDays(14),
+                        Transportation = Transportation,
+                        Pool = Pool,
+                        Breakfast = Breakfast,
+                        AllInclusive = AllInclusive,
+                        TotalPrice = TotalPrice
+                    };
 
-                await _service.SaveBooking(booking);
-                var user = await _userService.GetUserByEmail(User.Email);
-                User = user;
-                _ea.GetEvent<UpdateHotelsEvent>().Publish();
-                _ea.GetEvent<LoginEvent>().Publish(User);
+                    await _service.SaveBooking(booking);
+                    var user = await _userService.GetUserByEmail(User.Email);
+                    User = user;
+                    _ea.GetEvent<UpdateHotelsEvent>().Publish();
+                    _ea.GetEvent<LoginEvent>().Publish(User);
 
-                var p = new NavigationParameters();
-                p.Add("message", $"Tack för din bokning!");
-                _regionManager.RequestNavigate("ContentRegion", "MessageView", p);
+                    var p = new NavigationParameters();
+                    p.Add("message", $"Tack för din bokning!");
+                    _regionManager.RequestNavigate("ContentRegion", "MessageView", p);
+                }
+                else
+                {
+                    MessageBox.Show("Du måste välje en vecka eller två veckor");
+                }
+                
             }
             else
             {

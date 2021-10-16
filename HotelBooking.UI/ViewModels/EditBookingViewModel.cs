@@ -130,6 +130,16 @@ namespace HotelBooking.UI.ViewModels
                 SetExtrasPrice(Breakfast, 300);
             }
         }
+        private bool _allInclusive;
+        public bool AllInclusive
+        {
+            get { return _allInclusive; }
+            set 
+            { 
+                SetProperty(ref _allInclusive, value);
+                SetExtrasPrice(AllInclusive, 500);
+            }
+        }
 
         private double _totalPrice;
         public double TotalPrice
@@ -141,7 +151,6 @@ namespace HotelBooking.UI.ViewModels
             }
         }
 
-        private bool _allInclusive;
         private readonly IEventAggregator _eventAggregator;
         private readonly IBookingDataService _service;
         private readonly IRegionManager _regionManager;
@@ -149,11 +158,6 @@ namespace HotelBooking.UI.ViewModels
         public DelegateCommand EditCommand { get; set; }
         public DelegateCommand DeleteCommand { get; set; }
 
-        public bool AllInclusive
-        {
-            get { return _allInclusive; }
-            set { SetProperty(ref _allInclusive, value); }
-        }
 
         public EditBookingViewModel(IEventAggregator eventAggregator, IBookingDataService service, IRegionManager regionManager)
         {
@@ -201,7 +205,8 @@ namespace HotelBooking.UI.ViewModels
                 Transportation = Transportation,
                 Pool = Pool,
                 Breakfast = Breakfast,
-                AllInclusive = AllInclusive
+                AllInclusive = AllInclusive,
+                TotalPrice = TotalPrice
             };
             User.Bookings.Add(booking);
             _service.EditBooking(booking);
