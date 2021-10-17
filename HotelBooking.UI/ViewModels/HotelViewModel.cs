@@ -17,6 +17,20 @@ namespace HotelBooking.UI.ViewModels
 {
     public class HotelViewModel : BindableBase, IHotelViewModel
     {
+        private Hotel _selectedHotel;
+        public Hotel SelectedHotel
+        {
+            get { return _selectedHotel; }
+            set { SetProperty(ref _selectedHotel, value); }
+        }
+
+        private string _text;
+        public string Text
+        {
+            get { return _text; }
+            set { _text = value; }
+        }
+
         public DelegateCommand GetHotelsCommand { get; set; }
         public DelegateCommand ShowHotelCommand { get; set; }
 
@@ -25,21 +39,6 @@ namespace HotelBooking.UI.ViewModels
         private readonly IEventAggregator _ea;
         private readonly IRegionManager _regionManager;
 
-        private Hotel _selectedHotel;
-
-        public Hotel SelectedHotel
-        {
-            get { return _selectedHotel; }
-            set { SetProperty(ref _selectedHotel, value); }
-        }
-
-        private string _text;
-
-        public string Text
-        {
-            get { return _text; }
-            set { _text = value; }
-        }
 
         public HotelViewModel(IHotelDataService service, IEventAggregator ea, IRegionManager regionManager)
         {

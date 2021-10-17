@@ -12,25 +12,8 @@ using System.Linq;
 namespace HotelBooking.UI.ViewModels
 {
     public class EditBookingViewModel : BindableBase
-    {
-        private Booking _booking;
-
-        public Booking Booking
-        {
-            get { return _booking; }
-            set { SetProperty(ref _booking, value); }
-        }
-
-        private User _user;
-
-        public User User
-        {
-            get { return _user; }
-            set { SetProperty(ref _user, value); }
-        }
-
+    {        
         private int _roomId;
-
         public int RoomId
         {
             get { return _roomId; }
@@ -38,49 +21,27 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private bool _oneWeek;
-
         public bool OneWeek
         {
             get { return _oneWeek; }
             set
             {
                 SetProperty(ref _oneWeek, value);
-                //if (OneWeek)
-                //{
-                //    TwoWeeks = false;
-                //    Transportation = false;
-                //    Pool = false;
-                //    Breakfast = false;
-                //    AllInclusive = false;
-                //    TotalPrice = Booking.Room.Price * 7;
-                //}
-
             }
         }
 
         private bool _twoWeeks;
-
         public bool TwoWeeks
         {
             get { return _twoWeeks; }
             set
             {
                 SetProperty(ref _twoWeeks, value);
-                //if (TwoWeeks)
-                //{
-                //    OneWeek = false;
-                //    Transportation = false;
-                //    Pool = false;
-                //    Breakfast = false;
-                //    AllInclusive = false;
-                //    TotalPrice = Booking.Room.Price * 14;
-                //}
             }
         }
 
 
         private DateTime _startDate;
-
         public DateTime StartDate
         {
             get { return _startDate; }
@@ -88,7 +49,6 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private DateTime _endDate;
-
         public DateTime EndDate
         {
             get { return _endDate; }
@@ -96,7 +56,6 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private bool _transportation;
-
         public bool Transportation
         {
             get { return _transportation; }
@@ -108,7 +67,6 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private bool _pool;
-
         public bool Pool
         {
             get { return _pool; }
@@ -120,7 +78,6 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private bool _breakfast;
-
         public bool Breakfast
         {
             get { return _breakfast; }
@@ -149,6 +106,20 @@ namespace HotelBooking.UI.ViewModels
             {
                 SetProperty(ref _totalPrice, value);
             }
+        }
+
+        private Booking _booking;
+        public Booking Booking
+        {
+            get { return _booking; }
+            set { SetProperty(ref _booking, value); }
+        }
+
+        private User _user;
+        public User User
+        {
+            get { return _user; }
+            set { SetProperty(ref _user, value); }
         }
 
         private readonly IEventAggregator _eventAggregator;

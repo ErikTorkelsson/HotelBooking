@@ -8,6 +8,7 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Security;
 using System.Text;
@@ -29,7 +30,6 @@ namespace HotelBooking.UI.ViewModels
         public DelegateCommand<string> NavigateCommand { get; set; }
 
         private string _email;
-
         public string Email
         {
             get { return _email; }
@@ -37,7 +37,6 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private string _passWord;
-
         public string PassWord
         {
             get { return _passWord; }
@@ -56,13 +55,18 @@ namespace HotelBooking.UI.ViewModels
 
         private async void Execute(object parameter)
         {
-            User user = await _service.GetUserByEmail(Email);
-            
-            // Detta är nog inte best paractice men funkar för skoluppgift.
-            var passwordBox = parameter as PasswordBox;
-            var password = passwordBox.Password.ToString();
+            try
+            {
+                User user = await _service.GetUserByEmail(Email);
+                var passwordBox = parameter as PasswordBox;
+                var password = passwordBox.Password.ToString();
 
-            LoginCheck(user, password);        
+                LoginCheck(user, password);
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine(e);
+            }      
         }
 
         private void Navigate(string viewName)

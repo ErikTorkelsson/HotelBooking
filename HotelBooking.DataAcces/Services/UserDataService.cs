@@ -26,8 +26,6 @@ namespace HotelBooking.DataAcces.Services
         {
             var user = await _dbContext.Users.Include(u => u.Bookings).FirstOrDefaultAsync(u => u.Email == email);
 
-            //var users = await _dbContext.Users.Include(u => u.Bookings).ToListAsync();
-            //var user = users.FirstOrDefault(u => u.Email == email);
             return user;
         }
 

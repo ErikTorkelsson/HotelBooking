@@ -14,7 +14,6 @@ namespace HotelBooking.UI.ViewModels
     public class RegisterViewModel : BindableBase
     {
         private string _firstName;
-
         public string FirstName
         {
             get { return _firstName; }
@@ -22,7 +21,6 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private string _lastName;
-
         public string LastName
         {
             get { return _lastName; }
@@ -30,7 +28,6 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private string _address;
-
         public string Address
         {
             get { return _address; }
@@ -38,7 +35,6 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private string _phoneNumber;
-
         public string PhoneNumber
         {
             get { return _phoneNumber; }
@@ -46,7 +42,6 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private string _email;
-
         public string Email
         {
             get { return _email; }
@@ -54,14 +49,15 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private string _password;
-        private readonly IUserDataService _service;
-        private readonly IRegionManager _regionManager;
-
         public string Password
         {
             get { return _password; }
             set { SetProperty(ref _password, value); }
         }
+
+        private readonly IUserDataService _service;
+        private readonly IRegionManager _regionManager;
+
 
         public DelegateCommand SaveUserCommand { get; set; }
 

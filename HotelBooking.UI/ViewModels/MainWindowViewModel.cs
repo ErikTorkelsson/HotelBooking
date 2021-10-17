@@ -20,9 +20,7 @@ namespace HotelBooking.UI.ViewModels
     {
         private readonly IRegionManager _regionManager;
 
-
         private User _user;
-
         public User User
         {
             get { return _user; }
@@ -30,7 +28,6 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private string _email = "Logga in";
-
         public string Email
         {
             get { return _email; }

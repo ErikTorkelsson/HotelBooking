@@ -31,13 +31,6 @@ namespace HotelBooking.DataAcces
                     new Room { RoomId = 9, Beds = 3,Price = 500,Rating = 2.5, SQMeters = 15, HotelId = 3 }
 
             );
-
-            modelBuilder.Entity<User>().HasData(
-                    new User { UserId = 1, FirstName = "Erik", LastName = "Torkelsson",Address = "enriktiggata 5",PhoneNumber = 0723457689, Email = "erik.torkelsson@hotmail.com", PassWord = "asdf123" },
-                    new User { UserId = 2, FirstName = "Per", LastName = "Andersson",Address = "påriktigtgatan 8",PhoneNumber = 0707358635, Email = "per.andersson@gmail.com", PassWord = "asdf123" },
-                    new User { UserId = 3, FirstName = "Lena", LastName = "Karlsson",Address = "asdfgatan 7",PhoneNumber = 0733578723, Email = "lena.karlsson@outlook.com", PassWord = "asdf123" }
-
-            );
         }
     }
 }

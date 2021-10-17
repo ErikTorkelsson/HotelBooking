@@ -20,11 +20,7 @@ namespace HotelBooking.UI.ViewModels
 {
     public class BookingViewModel : BindableBase
     {
-        
-        public DelegateCommand BookCommand { get; set; }
-
         private bool _oneWeek;
-
         public bool OneWeek
         {
             get { return _oneWeek; }
@@ -45,7 +41,6 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private bool _twoWeeks;
-
         public bool TwoWeeks
         {
             get { return _twoWeeks; }
@@ -65,7 +60,6 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private DateTime _startDate;
-
         public DateTime StartDate
         {
             get { return _startDate; }
@@ -73,23 +67,13 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private DateTime _endDate;
-
         public DateTime EndDate
         {
             get { return _endDate; }
             set { SetProperty(ref _endDate, value); }
         }
 
-        private User _user;
-
-        public User User
-        {
-            get { return _user; }
-            set { SetProperty(ref _user, value); }
-        }
-
         private bool _transportation;
-
         public bool Transportation
         {
             get { return _transportation; }
@@ -101,7 +85,6 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private bool _pool;
-
         public bool Pool
         {
             get { return _pool; }
@@ -113,7 +96,6 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private bool _breakfast;
-
         public bool Breakfast
         {
             get { return _breakfast; }
@@ -125,7 +107,6 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private bool _allInclusive;
-
         public bool AllInclusive
         {
             get { return _allInclusive; }
@@ -136,13 +117,6 @@ namespace HotelBooking.UI.ViewModels
             }
         }
 
-
-        private Room _room;
-        public Room Room
-        {
-            get { return _room; }
-            set { SetProperty(ref _room, value); }
-        }
 
         private double _totalPrice;
         public double TotalPrice
@@ -156,6 +130,21 @@ namespace HotelBooking.UI.ViewModels
 
         public bool IsLoggedIn { get; set; }
 
+        private Room _room;
+        public Room Room
+        {
+            get { return _room; }
+            set { SetProperty(ref _room, value); }
+        }
+
+        private User _user;
+        public User User
+        {
+            get { return _user; }
+            set { SetProperty(ref _user, value); }
+        }
+
+        public DelegateCommand BookCommand { get; set; }
 
         private readonly IUserDataService _userService;
         private readonly IBookingDataService _service;

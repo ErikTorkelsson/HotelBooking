@@ -16,7 +16,6 @@ namespace HotelBooking.DataAcces.Services
         {
             _dbContext = dbContext;
         }
-
         public async Task<List<Hotel>> GetHotels()
         {
             return await _dbContext.Hotels.Include(h => h.Rooms).ThenInclude(r => r.Bookings).ToListAsync();

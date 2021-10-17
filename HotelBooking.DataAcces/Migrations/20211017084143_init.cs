@@ -113,22 +113,17 @@ namespace HotelBooking.DataAcces.Migrations
             migrationBuilder.InsertData(
                 table: "Hotels",
                 columns: new[] { "HotelId", "Address", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Torskarigatan 5", "Scandic Hotel" },
-                    { 2, "Moravägen 11G", "Sankt Olof Hotel" },
-                    { 3, "Grönlandsvägen 24", "Skinnargården" }
-                });
+                values: new object[] { 1, "Torskarigatan 5", "Scandic Hotel" });
 
             migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "UserId", "Address", "Email", "FirstName", "LastName", "PassWord", "PhoneNumber" },
-                values: new object[,]
-                {
-                    { 1, "enriktiggata 5", "erik.torkelsson@hotmail.com", "Erik", "Torkelsson", "asdf123", 723457689 },
-                    { 2, "påriktigtgatan 8", "per.andersson@gmail.com", "Per", "Andersson", "asdf123", 707358635 },
-                    { 3, "asdfgatan 7", "lena.karlsson@outlook.com", "Lena", "Karlsson", "asdf123", 733578723 }
-                });
+                table: "Hotels",
+                columns: new[] { "HotelId", "Address", "Name" },
+                values: new object[] { 2, "Moravägen 11G", "Sankt Olof Hotel" });
+
+            migrationBuilder.InsertData(
+                table: "Hotels",
+                columns: new[] { "HotelId", "Address", "Name" },
+                values: new object[] { 3, "Grönlandsvägen 24", "Skinnargården" });
 
             migrationBuilder.InsertData(
                 table: "Rooms",

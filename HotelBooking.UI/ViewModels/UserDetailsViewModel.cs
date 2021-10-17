@@ -16,12 +16,7 @@ namespace HotelBooking.UI.ViewModels
 {
     public class UserDetailsViewModel : BindableBase
     {
-        public ObservableCollection<Booking> Bookings { get; set; }
-        public DelegateCommand EditBookingCommand { get; set; }
-        public DelegateCommand LogOutCommand { get; set; }
-
         private Booking _selectedBooking;
-
         public Booking SelectedBooking
         {
             get { return _selectedBooking; }
@@ -30,7 +25,6 @@ namespace HotelBooking.UI.ViewModels
 
 
         private User _user;
-
         public User User
         {
             get { return _user; }
@@ -39,12 +33,16 @@ namespace HotelBooking.UI.ViewModels
 
 
         private string _fullName;
-
         public string FullName
         {
             get { return _fullName; }
             set { SetProperty(ref _fullName, value); }
         }
+
+        public ObservableCollection<Booking> Bookings { get; set; }
+        public DelegateCommand EditBookingCommand { get; set; }
+        public DelegateCommand LogOutCommand { get; set; }
+
 
         private readonly IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;

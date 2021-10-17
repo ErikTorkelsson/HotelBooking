@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBooking.DataAcces.Migrations
 {
     [DbContext(typeof(HotelBookingDbContext))]
-    [Migration("20211015223416_init")]
+    [Migration("20211017084143_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -263,38 +263,6 @@ namespace HotelBooking.DataAcces.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 1,
-                            Address = "enriktiggata 5",
-                            Email = "erik.torkelsson@hotmail.com",
-                            FirstName = "Erik",
-                            LastName = "Torkelsson",
-                            PassWord = "asdf123",
-                            PhoneNumber = 723457689
-                        },
-                        new
-                        {
-                            UserId = 2,
-                            Address = "påriktigtgatan 8",
-                            Email = "per.andersson@gmail.com",
-                            FirstName = "Per",
-                            LastName = "Andersson",
-                            PassWord = "asdf123",
-                            PhoneNumber = 707358635
-                        },
-                        new
-                        {
-                            UserId = 3,
-                            Address = "asdfgatan 7",
-                            Email = "lena.karlsson@outlook.com",
-                            FirstName = "Lena",
-                            LastName = "Karlsson",
-                            PassWord = "asdf123",
-                            PhoneNumber = 733578723
-                        });
                 });
 
             modelBuilder.Entity("HotelBooking.Model.Model.Booking", b =>

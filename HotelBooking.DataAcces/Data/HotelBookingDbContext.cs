@@ -15,7 +15,6 @@ namespace HotelBooking.DataAcces
             optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Database=HotelBookingDB;Trusted_Connection=True;");
             base.OnConfiguring(optionsBuilder);
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Seed();

@@ -22,14 +22,15 @@ namespace HotelBooking.UI.ViewModels
         }
 
         private Room _selectedRoom;
-        private readonly IEventAggregator _eventAggregator;
-        private readonly IRegionManager _regionManager;
-
         public Room SelectedRoom
         {
             get { return _selectedRoom; }
             set { SetProperty(ref _selectedRoom, value); }
         }
+
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IRegionManager _regionManager;
+
 
         public ObservableCollection<Room> Rooms { get; set; }
 
