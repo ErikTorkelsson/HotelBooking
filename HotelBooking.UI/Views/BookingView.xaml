@@ -22,6 +22,7 @@
             <CheckBox IsChecked="{Binding AllInclusive}" Margin="5">
                 <TextBlock>All-Inclusive: 500kr/vecka</TextBlock>
             </CheckBox>
+            <TextBlock Text="Totalt pris:" FontWeight="Bold"></TextBlock>
             <TextBlock Text="{Binding TotalPrice}"></TextBlock>
             <Button Width="100" Command="{Binding BookCommand}" Margin="5">Boka</Button>
         </StackPanel>
